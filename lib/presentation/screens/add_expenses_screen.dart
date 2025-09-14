@@ -1,6 +1,7 @@
 import 'package:expenses_tracking_app/presentation/widgets/add_expenses_card.dart';
 import 'package:expenses_tracking_app/presentation/widgets/arc_container.dart';
 import 'package:flutter/material.dart';
+import '../../core/utils/helpers.dart'; // for MediaQueryHelper
 
 class AddExpensesScreen extends StatefulWidget {
   const AddExpensesScreen({super.key});
@@ -12,28 +13,36 @@ class AddExpensesScreen extends StatefulWidget {
 class _AddExpensesScreenState extends State<AddExpensesScreen> {
   @override
   Widget build(BuildContext context) {
+    final width = context.screenWidth;
+    final height = context.screenHeight;
+
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
+      body: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Stack(
-            children: [
-              ArcContainer(height: 287).buildArcContainer(),
-              const Positioned(
-                left: 135,
-                top: 70,
-                child: Text(
-                  'Add Expense',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+          // Arc background
+          ArcContainer(height: height * 0.25).buildArcContainer(context),
+
+          // Title
+          Positioned(
+            left: width * 0.30,
+            top: height * 0.08,
+            child: Text(
+              'Add Expense',
+              style: TextStyle(
+                fontSize: width * 0.06,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
-              const AddExpensesCard(),
-              //addExpensesCard.buildExpensesCard(context),
-            ],
+            ),
+          ),
+
+          // Add Expenses Card
+          Positioned(
+            top: height * 0.007,
+            //left: width * 0.01,
+            child: const AddExpensesCard(),
           ),
         ],
       ),

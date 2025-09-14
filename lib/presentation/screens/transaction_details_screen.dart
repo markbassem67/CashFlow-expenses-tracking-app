@@ -12,7 +12,9 @@ class TransactionDetails extends StatelessWidget {
 
       body: Column(
         children: [
-          Stack(children: [ArcContainer(height: 287).buildArcContainer()]),
+          Stack(
+            children: [ArcContainer(height: 287).buildArcContainer(context)],
+          ),
         ],
       ),
     );

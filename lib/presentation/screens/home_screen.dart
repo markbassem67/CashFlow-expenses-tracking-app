@@ -21,6 +21,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final width = context.screenWidth;
+    final height = context.screenHeight;
+
     return BlocBuilder<FinanceCubit, FinanceState>(
       builder: (context, state) {
         if (state is FinanceLoading) {
@@ -31,7 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(
             child: Text(
               state.message,
-              style: const TextStyle(color: Colors.red),
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: width * 0.045, // responsive font
+              ),
             ),
           );
         }
@@ -46,26 +52,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    ArcContainer(height: 287).buildArcContainer(),
+                    ArcContainer(height: height * 0.30).buildArcContainer(context),
                     Positioned(
-                      top: 74,
-                      left: 24,
+                      top: height * 0.08,
+                      left: width * 0.06,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'Hello!',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: width * 0.045,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           Text(
                             state.username,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
-                              fontSize: 25,
+                              fontSize: width * 0.065,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -81,28 +87,38 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
 
                 // Section title
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(22, 100, 22, 8),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                    width * 0.055,
+                    height * 0.12,
+                    width * 0.055,
+                    height * 0.01,
+                  ),
                   child: Text(
                     'Transactions History',
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 19),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: width * 0.05,
+                    ),
                   ),
                 ),
 
                 // Transaction list
                 Expanded(
                   child: state.transactions.isEmpty
-                      ? const Center(
+                      ? Center(
                           child: Text(
                             'No transactions yet',
                             style: TextStyle(
-                              color: Color(0xFF666666),
-                              fontSize: 15,
+                              color: const Color(0xFF666666),
+                              fontSize: width * 0.04,
                             ),
                           ),
                         )
                       : ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.055,
+                          ),
                           itemCount: state.transactions.length,
                           itemBuilder: (context, index) {
                             final tx = state.transactions[index];
@@ -118,17 +134,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               title: Text(
                                 tx.name.capitalize(),
-                                style: const TextStyle(
-                                  fontSize: 17,
+                                style: TextStyle(
+                                  fontSize: width * 0.045,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: -0.32,
                                 ),
                               ),
                               subtitle: Text(
                                 DateFormat('EEE d, yyyy').format(tx.date),
-                                style: const TextStyle(
-                                  color: Color(0xFF666666),
-                                  fontSize: 14,
+                                style: TextStyle(
+                                  color: const Color(0xFF666666),
+                                  fontSize: width * 0.037,
                                   fontWeight: FontWeight.w400,
                                   letterSpacing: -0.26,
                                 ),
@@ -141,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: tx.type == TransactionType.income
                                       ? const Color(0xFF24A869)
                                       : const Color(0xFFF95B51),
-                                  fontSize: 18,
+                                  fontSize: width * 0.048,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

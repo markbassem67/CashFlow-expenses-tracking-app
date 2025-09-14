@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/helpers.dart'; // for MediaQueryHelper
 
 class ArcContainer {
-  final double height;
+  final double? height;
   final List<Color> gradientColors;
 
   ArcContainer({
-    this.height = 200,
+    this.height,
     this.gradientColors = const [Color(0xFF429690), Color(0xFF2A7C76)],
   });
 
-  Widget buildArcContainer() {
+  Widget buildArcContainer(BuildContext context) {
+    final screenWidth = context.screenWidth;
+    final screenHeight = context.screenHeight;
+    final containerHeight = height ?? screenHeight * 0.25;
+
     return SizedBox(
       width: double.infinity,
-      height: height,
+      height: containerHeight,
       child: Stack(
         children: [
           ClipPath(
@@ -27,13 +32,14 @@ class ArcContainer {
               ),
             ),
           ),
-          // Overlapping white circles
+
+          // Overlapping white circles (positions scaled)
           Positioned(
-            top: 150,
-            left: -40,
+            top: containerHeight * 0.55,
+            left: -screenWidth * 0.1,
             child: Container(
-              width: 100,
-              height: 100,
+              width: screenWidth * 0.25,
+              height: screenWidth * 0.25,
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha((0.18 * 255).toInt()),
                 shape: BoxShape.circle,
@@ -41,11 +47,11 @@ class ArcContainer {
             ),
           ),
           Positioned(
-            top: 135,
-            left: 15,
+            top: containerHeight * 0.50,
+            left: screenWidth * 0.035,
             child: Container(
-              width: 60,
-              height: 60,
+              width: screenWidth * 0.15,
+              height: screenWidth * 0.15,
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha((0.12 * 255).toInt()),
                 shape: BoxShape.circle,
@@ -53,11 +59,11 @@ class ArcContainer {
             ),
           ),
           Positioned(
-            top: 10,
-            right: -30,
+            top: containerHeight * 0.05,
+            right: -screenWidth * 0.08,
             child: Container(
-              width: 80,
-              height: 80,
+              width: screenWidth * 0.20,
+              height: screenWidth * 0.20,
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha((0.15 * 255).toInt()),
                 shape: BoxShape.circle,
@@ -65,11 +71,11 @@ class ArcContainer {
             ),
           ),
           Positioned(
-            top: 70,
-            right: 20,
+            top: containerHeight * 0.25,
+            right: screenWidth * 0.05,
             child: Container(
-              width: 40,
-              height: 40,
+              width: screenWidth * 0.10,
+              height: screenWidth * 0.10,
               decoration: BoxDecoration(
                 color: Colors.white.withAlpha((0.10 * 255).toInt()),
                 shape: BoxShape.circle,
@@ -86,12 +92,12 @@ class _BottomArcClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    path.lineTo(0, size.height - 40);
+    path.lineTo(0, size.height - size.height * 0.15);
     path.quadraticBezierTo(
       size.width / 2,
       size.height,
       size.width,
-      size.height - 40,
+      size.height - size.height * 0.15,
     );
     path.lineTo(size.width, 0);
     path.close();

@@ -1,160 +1,169 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../core/utils/helpers.dart';
 
 class BalanceCardWidget {
-  static Widget buildBalanceCard(double income, double expenses, double totalBalance) {
-    return Positioned(
-      top: 155,
-      left: 30,
-      child: Container(
-        width: 374,
-        height: 202,
-        decoration: BoxDecoration(
-          color: const Color(0xFF2E7E78),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.25),
-              spreadRadius: 2.5,
-              blurRadius: 6,
-              offset: const Offset(2, 4),
-            ),
-          ],
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 9,
-              top: 118.5,
-              child: Container(
-                width: 356,
-                height: 83.5,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
+  static Widget buildBalanceCard(
+    double income,
+    double expenses,
+    double totalBalance,
+  ) {
+    return Builder(
+      builder: (context) {
+        final width = context.screenWidth;
+        final height = context.screenHeight;
 
-            // Total Balance section
-            Padding(
-              padding: const EdgeInsets.only(left: 20, top: 25),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Row(
+        return Positioned(
+          top: height * 0.17, // instead of 155
+          left: width * 0.055, // instead of 30
+          child: Container(
+            width: width * 0.9, // instead of 374
+            height: height * 0.23, // instead of 202
+            decoration: BoxDecoration(
+              color: const Color(0xFF2E7E78),
+              borderRadius: BorderRadius.circular(width * 0.05),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.25),
+                  spreadRadius: width * 0.006,
+                  blurRadius: width * 0.015,
+                  offset: Offset(width * 0.01, height * 0.005),
+                ),
+              ],
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  left: width * 0.025,
+                  top: height * 0.15,
+                  child: Container(
+                    width: width * 0.85,
+                    height: height * 0.11,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(width * 0.05),
+                    ),
+                  ),
+                ),
+
+                // Total Balance section
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: width * 0.05,
+                    top: height * 0.03,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Total Balance',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: width * 0.04,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -0.32,
+                            ),
+                          ),
+                          SizedBox(width: width * 0.01),
+                        ],
+                      ),
+                      SizedBox(height: height * 0.01),
                       Text(
-                        'Total Balance',
+                        '\$ $totalBalance',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: -0.32,
+                          fontSize: width * 0.075,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: -1.5,
                         ),
                       ),
-                      SizedBox(width: 4), // placeholder for optional icon
                     ],
                   ),
-                  const SizedBox(height: 7),
-                  Text(
-                    '\$ $totalBalance',
-                    style: const TextStyle(
+                ),
+
+                // Income label
+                Positioned(
+                  left: width * 0.05,
+                  top: height * 0.16,
+                  child: Row(
+                    children: [
+                      Icon(
+                        CupertinoIcons.arrow_down_circle_fill,
+                        color: const Color(0xFFD0E5E3),
+                        size: width * 0.045,
+                      ),
+                      Text(
+                        ' Income',
+                        style: TextStyle(
+                          color: const Color(0xFFD0E5E3),
+                          fontSize: width * 0.04,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Expenses label
+                Positioned(
+                  right: width * 0.05,
+                  top: height * 0.16,
+                  child: Row(
+                    children: [
+                      Icon(
+                        CupertinoIcons.arrow_up_circle_fill,
+                        color: const Color(0xFFD0E5E3),
+                        size: width * 0.045,
+                      ),
+                      Text(
+                        ' Expenses',
+                        style: TextStyle(
+                          color: const Color(0xFFD0E5E3),
+                          fontSize: width * 0.045,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: -0.9,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Income amount
+                Positioned(
+                  left: width * 0.05,
+                  top: height * 0.185,
+                  child: Text(
+                    '\$ $income',
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -1.50,
+                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -1,
                     ),
                   ),
-                ],
-              ),
-            ),
-
-            // Income & Expenses labels
-            const Positioned(
-              left: 19 ,
-              top: 121,
-              child: Row(
-                children: [
-                  Icon(
-                    CupertinoIcons.arrow_down_circle_fill,
-                    color: Color(0xFFD0E5E3),
-                    size: 16,
-                  ),
-                  Text(
-                    ' Income',
-                    style: TextStyle(
-                      color: Color(0xFFD0E5E3),
-                      fontSize: 16,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -0.8,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const Positioned(
-              right: 19,
-              top: 119,
-              child: Row(
-                children: [
-                  Icon(
-                    CupertinoIcons.arrow_up_circle_fill,
-                    color: Color(0xFFD0E5E3),
-                    size: 16,
-                  ),
-                  Text(
-                    ' Expenses',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(0xFFD0E5E3),
-                      fontSize: 18,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: -0.9,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            // Income & Expenses amounts
-            Positioned(
-              left: 20,
-              top: 148,
-              child: Text(
-                '\$ $income',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -1,
                 ),
-              ),
-            ),
-            Positioned(
-              right: 20,
-              top: 148,
-              child: Text(
-                '\$ $expenses',
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -1,
-                ),
-              ),
-            ),
 
-            // Optional small circular indicators
-          ],
-        ),
-      ),
+                // Expenses amount
+                Positioned(
+                  right: width * 0.05,
+                  top: height * 0.185,
+                  child: Text(
+                    '\$ $expenses',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: width * 0.05,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
