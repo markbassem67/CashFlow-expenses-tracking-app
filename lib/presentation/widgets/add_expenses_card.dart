@@ -138,6 +138,11 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                 SizedBox(
                   height: height * 0.065,
                   child: DropdownButtonFormField<String>(
+                    icon: Icon(
+                      CupertinoIcons.chevron_down,
+                      size: width * 0.06,
+                      color: const Color(0xFF29756F),
+                    ),
                     value: selectedType,
                     items: const [
                       DropdownMenuItem(
@@ -180,6 +185,10 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                       hintText: 'Enter date',
                       enabledBorder: greyBorder,
                       focusedBorder: greenBorder,
+                      suffixIcon: const Icon(
+                        CupertinoIcons.calendar,
+                        color: Color(0xFF29756F),
+                      ),
                     ),
                     onTap: () async {
                       FocusScope.of(context).requestFocus(FocusNode());

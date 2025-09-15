@@ -11,14 +11,7 @@ class FinanceCubit extends Cubit<FinanceState> {
   final UserRepository userRepo;
 
   FinanceCubit(this.transactionRepository, this.userRepo)
-    : super(FinanceInitial()) {
-   // _init();
-  }
-
- /*  Future<void> _init() async {
-    await loadUsername();
-    await loadTransactions();
-  } */
+    : super(FinanceInitial()) {}
 
   Future<void> loadUsername() async {
     final username = await userRepo.getUsername() ?? 'Guest';

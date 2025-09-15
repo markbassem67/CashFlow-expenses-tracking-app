@@ -43,6 +43,7 @@ dependencies:
   flutter_platform_widgets:
   currency_picker: ^2.0.21
   shared_preferences: ^2.5.3
+  
 
 dev_dependencies:
   flutter_test:

@@ -18,31 +18,30 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        clipBehavior: Clip.none,
+      body: Column(
         children: [
-          // Arc background
-          ArcContainer(height: height * 0.25).buildArcContainer(context),
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              // Arc background
+              ArcContainer(height: height * 0.25).buildArcContainer(context),
 
-          // Title
-          Positioned(
-            left: width * 0.30,
-            top: height * 0.08,
-            child: Text(
-              'Add Expense',
-              style: TextStyle(
-                fontSize: width * 0.06,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+              // Title
+              Positioned(
+                left: width * 0.26,
+                top: height * 0.08,
+                child: Text(
+                  'Add Transaction',
+                  style: TextStyle(
+                    fontSize: width * 0.06,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-            ),
-          ),
 
-          // Add Expenses Card
-          Positioned(
-            top: height * 0.007,
-            //left: width * 0.01,
-            child: const AddExpensesCard(),
+              const AddExpensesCard(),
+            ],
           ),
         ],
       ),

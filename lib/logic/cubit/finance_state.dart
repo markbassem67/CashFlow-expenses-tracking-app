@@ -14,8 +14,8 @@ class FinanceLoaded extends FinanceState {
   final double totalIncome;
   final double totalExpenses;
   final List<Transaction> transactions;
-    final String username;
-
+  final String username;
+  //final List<Transaction> rankedtransactions;
 
   FinanceLoaded({
     required this.balance,
@@ -23,13 +23,16 @@ class FinanceLoaded extends FinanceState {
     required this.totalExpenses,
     required this.transactions,
     required this.username,
+   // required this.rankedtransactions,
   });
 
   FinanceLoaded copyWith({
     double? balance,
     double? totalIncome,
     double? totalExpenses,
-    List<Transaction>? transactions, 
+    List<Transaction>? transactions,
+    //List<Transaction>? rankedtransactions,
+
     String? username,
   }) {
     return FinanceLoaded(
@@ -38,6 +41,7 @@ class FinanceLoaded extends FinanceState {
       totalExpenses: totalExpenses ?? this.totalExpenses,
       transactions: transactions ?? this.transactions,
       username: username ?? this.username,
+     // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
     );
   }
 }
