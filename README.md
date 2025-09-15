@@ -1,4 +1,4 @@
-# CashFlow – Expense Tracking App
+# CashFlow – Expense Tracking App (Not finished)
 An easy-to-use Flutter app that helps users track their expenses, set goals, and manage their financial habits. The app is designed with persistence in mind so that data is retained even after closing or restarting the app.
 
 
