@@ -26,21 +26,17 @@ class _MainNavBarState extends State<MainNavBar> {
   List<PersistentBottomNavBarItem> _navBarsItems() => [
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.house_fill, size: 30),
-      //title: ("Home"),
       activeColorPrimary: const Color(0xFF69AEA9),
-      inactiveColorPrimary: const Color(0xFF69AEA9),
+      inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.add, color: Colors.white),
-      //title: ("Add"),
       activeColorPrimary: const Color(0xFF1E605B),
-      //inactiveColorPrimary: Colors.grey,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.chart_bar_alt_fill, size: 30),
-      //title: ("Profile"),
       activeColorPrimary: const Color(0xFF69AEA9),
-      inactiveColorPrimary: const Color(0xFF69AEA9),
+      inactiveColorPrimary: Colors.grey,
     ),
   ];
 

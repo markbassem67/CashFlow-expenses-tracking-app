@@ -1,4 +1,4 @@
-import 'package:expenses_tracking_app/presentation/screens/sign_up.dart';
+import 'package:expenses_tracking_app/presentation/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_button.dart';

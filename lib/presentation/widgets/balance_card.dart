@@ -68,7 +68,7 @@ class BalanceCardWidget {
                           SizedBox(width: width * 0.01),
                         ],
                       ),
-                      SizedBox(height: height * 0.01),
+                      //SizedBox(height: height * 0.01),
                       Text(
                         '\$ $totalBalance',
                         style: TextStyle(

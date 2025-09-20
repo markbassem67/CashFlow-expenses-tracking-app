@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-/// A reusable function to show a platform-aware date picker
 Future<DateTime?> showPlatformDatePicker({
   required BuildContext context,
   DateTime? initialDate,
@@ -11,11 +10,10 @@ Future<DateTime?> showPlatformDatePicker({
 }) async {
   final now = DateTime.now();
   final initDate = initialDate ?? now;
-  final startDate = firstDate ?? DateTime(2000);
-  final endDate = lastDate ?? DateTime(2100);
+  final startDate = firstDate ?? DateTime(2025);
+  final endDate = lastDate ?? DateTime(2040);
 
   if (isMaterial(context)) {
-    // Android / Material
     return showDatePicker(
       context: context,
       initialDate: initDate,
@@ -23,7 +21,6 @@ Future<DateTime?> showPlatformDatePicker({
       lastDate: endDate,
     );
   } else {
-    // iOS / Cupertino
     DateTime selectedDate = initDate;
 
     return await showCupertinoModalPopup<DateTime>(

@@ -40,9 +40,10 @@ dependencies:
   flutter_bloc: ^9.1.1
   intl:
   uuid:
-  flutter_platform_widgets:
+  flutter_platform_widgets: ^9.0.0
   currency_picker: ^2.0.21
   shared_preferences: ^2.5.3
+  flutter_local_notifications: ^19.4.2
   
 
 dev_dependencies:

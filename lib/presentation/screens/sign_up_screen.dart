@@ -188,63 +188,6 @@ class SignUp extends StatelessWidget {
                           );
                         }
                       }, 'Get Started'),
-
-                      /* ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          backgroundColor: const Color(0xFF29756F),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 5,
-                        ),
-                        onPressed: () {
-                          if (nameController.text.trim().isEmpty) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: Colors.redAccent.shade100,
-                                content: const Row(
-                                  children: [
-                                    Icon(
-                                      CupertinoIcons.exclamationmark_circle,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(width: 8),
-                                    Text(
-                                      "Please fill in your name",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                            return;
-                          }
-
-                          final name = nameController.text
-                              .trim()
-                              .capitalizeName();
-
-                          context.read<FinanceCubit>().setUsername(name);
-
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const MainNavBar(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "Get Started",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ), */
                     ),
                   ],
                 ),

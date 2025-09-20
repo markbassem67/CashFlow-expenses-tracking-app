@@ -1,3 +1,4 @@
+import 'package:expenses_tracking_app/data/models/reminder_model.dart';
 import 'package:expenses_tracking_app/data/models/transaction_model.dart';
 
 abstract class FinanceState {}
@@ -16,6 +17,7 @@ class FinanceLoaded extends FinanceState {
   final List<Transaction> transactions;
   final String username;
   //final List<Transaction> rankedtransactions;
+  final List<Reminder> reminders;
 
   FinanceLoaded({
     required this.balance,
@@ -23,7 +25,8 @@ class FinanceLoaded extends FinanceState {
     required this.totalExpenses,
     required this.transactions,
     required this.username,
-   // required this.rankedtransactions,
+    // required this.rankedtransactions,
+    required this.reminders,
   });
 
   FinanceLoaded copyWith({
@@ -31,8 +34,9 @@ class FinanceLoaded extends FinanceState {
     double? totalIncome,
     double? totalExpenses,
     List<Transaction>? transactions,
-    //List<Transaction>? rankedtransactions,
+    List<Reminder>? reminders,
 
+    //List<Transaction>? rankedtransactions,
     String? username,
   }) {
     return FinanceLoaded(
@@ -41,7 +45,8 @@ class FinanceLoaded extends FinanceState {
       totalExpenses: totalExpenses ?? this.totalExpenses,
       transactions: transactions ?? this.transactions,
       username: username ?? this.username,
-     // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
+      // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
+      reminders: reminders ?? this.reminders,
     );
   }
 }

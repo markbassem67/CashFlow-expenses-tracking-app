@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/presentation/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -68,14 +69,14 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ),
-        const Scaffold(
+        Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
             child: Text(
               'CashFlow',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 34,
+                fontSize: context.screenWidth * 0.08,
                 fontWeight: FontWeight.bold,
               ),
             ),

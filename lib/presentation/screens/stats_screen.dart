@@ -24,7 +24,17 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: const Column(children: [Text('Top Spendings')]),
+      body: const Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            Text(
+              'Top Spendings',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

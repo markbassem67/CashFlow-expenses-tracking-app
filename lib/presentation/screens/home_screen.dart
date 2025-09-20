@@ -2,6 +2,7 @@ import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/presentation/screens/transaction_details_screen.dart';
 import 'package:expenses_tracking_app/presentation/widgets/arc_container.dart';
 import 'package:expenses_tracking_app/presentation/widgets/balance_card.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
@@ -34,10 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Center(
             child: Text(
               state.message,
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: width * 0.045, // responsive font
-              ),
+              style: TextStyle(color: Colors.red, fontSize: width * 0.045),
             ),
           );
         }
@@ -52,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    ArcContainer(height: height * 0.30).buildArcContainer(context),
+                    ArcContainer(
+                      height: height * 0.30,
+                    ).buildArcContainer(context),
                     Positioned(
                       top: height * 0.08,
                       left: width * 0.06,
@@ -77,6 +77,44 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ],
                       ),
+                    ),
+                    Positioned(
+                      top: height * 0.093,
+                      left: width * 0.844,
+                      child: IconButton(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        //TODO: Add notification functionality
+                        onPressed: () {},
+                        icon: const Icon(CupertinoIcons.bell),
+
+                        color: Colors.white,
+                        iconSize: width * 0.07,
+                      ),
+
+                      /* ClipRRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color(
+                                0xFFFFFFFF,
+                              ).withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: () {},
+                              icon: const Icon(CupertinoIcons.bell),
+
+                              color: Colors.white,
+                              iconSize: width * 0.07, // responsive icon size
+                            ),
+                          ),
+                        ),
+                      ), */
                     ),
                     BalanceCardWidget.buildBalanceCard(
                       state.totalIncome,

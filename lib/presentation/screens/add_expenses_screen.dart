@@ -1,7 +1,7 @@
 import 'package:expenses_tracking_app/presentation/widgets/add_expenses_card.dart';
 import 'package:expenses_tracking_app/presentation/widgets/arc_container.dart';
 import 'package:flutter/material.dart';
-import '../../core/utils/helpers.dart'; // for MediaQueryHelper
+import '../../core/utils/helpers.dart';
 
 class AddExpensesScreen extends StatefulWidget {
   const AddExpensesScreen({super.key});
@@ -24,7 +24,7 @@ class _AddExpensesScreenState extends State<AddExpensesScreen> {
             clipBehavior: Clip.none,
             children: [
               // Arc background
-              ArcContainer(height: height * 0.25).buildArcContainer(context),
+              ArcContainer(height: height * 0.30).buildArcContainer(context),
 
               // Title
               Positioned(

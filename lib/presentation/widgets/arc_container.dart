@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../core/utils/helpers.dart'; // for MediaQueryHelper
+import '../../core/utils/helpers.dart'; 
 
 class ArcContainer {
   final double? height;
@@ -33,8 +33,8 @@ class ArcContainer {
             ),
           ),
 
-          // Overlapping white circles (positions scaled)
           Positioned(
+            //big circle - bottom left
             top: containerHeight * 0.55,
             left: -screenWidth * 0.1,
             child: Container(
@@ -47,6 +47,7 @@ class ArcContainer {
             ),
           ),
           Positioned(
+            //small circle - left
             top: containerHeight * 0.50,
             left: screenWidth * 0.035,
             child: Container(
@@ -59,7 +60,8 @@ class ArcContainer {
             ),
           ),
           Positioned(
-            top: containerHeight * 0.05,
+            //big circle - right
+            top: containerHeight * 0.12,
             right: -screenWidth * 0.08,
             child: Container(
               width: screenWidth * 0.20,
@@ -71,7 +73,7 @@ class ArcContainer {
             ),
           ),
           Positioned(
-            top: containerHeight * 0.25,
+            top: containerHeight * 0.32,
             right: screenWidth * 0.05,
             child: Container(
               width: screenWidth * 0.10,

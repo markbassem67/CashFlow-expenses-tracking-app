@@ -1,3 +1,4 @@
+import 'package:expenses_tracking_app/data/models/reminder_model.dart';
 import 'package:expenses_tracking_app/data/repositories/user_repo.dart';
 import 'package:expenses_tracking_app/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,21 @@ void main() async {
 
   Hive.registerAdapter(TransactionTypeAdapter());
   Hive.registerAdapter(TransactionAdapter());
+  Hive.registerAdapter(ReminderAdapter());
+
 
   final transactionRepository = TransactionRepository();
   final UserRepository userRepo = UserRepository();
 
   await Hive.openBox<Transaction>('transactions');
+  await Hive.openBox<Reminder>('reminders');
 
   runApp(
     BlocProvider(
       create: (context) => FinanceCubit(transactionRepository, userRepo)
         ..loadTransactions()
-        ..loadUsername(),
+        ..loadUsername()
+        ..loadReminders(),
       child: const MyApp(),
     ),
   );

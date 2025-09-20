@@ -1,4 +1,6 @@
+import 'package:expenses_tracking_app/data/models/reminder_model.dart';
 import 'package:expenses_tracking_app/data/models/transaction_model.dart';
+import 'package:expenses_tracking_app/data/repositories/reminders_repo.dart';
 import 'package:expenses_tracking_app/data/repositories/user_repo.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +11,7 @@ import 'finance_state.dart';
 class FinanceCubit extends Cubit<FinanceState> {
   final ITransactionRepository transactionRepository;
   final UserRepository userRepo;
+  final IReminderRepository reminderRepository = RemindersRepository();
 
   FinanceCubit(this.transactionRepository, this.userRepo)
     : super(FinanceInitial()) {}
@@ -28,6 +31,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         transactions: state is FinanceLoaded
             ? (state as FinanceLoaded).transactions
             : [],
+        reminders: state is FinanceLoaded
+            ? (state as FinanceLoaded).reminders
+            : [],
       ),
     );
   }
@@ -42,6 +48,33 @@ class FinanceCubit extends Cubit<FinanceState> {
       emit(FinanceInitial(username: username));
     }
   }
+
+  // --------------- Reminder Methods ---------------------
+
+  Future<void> loadReminders() async {
+    final reminders = await reminderRepository.getAllReminders();
+    if (state is FinanceLoaded) {
+      final current = state as FinanceLoaded;
+      emit(current.copyWith(reminders: reminders));
+    }
+  }
+
+  Future<void> addReminder(Reminder reminder) async {
+    await reminderRepository.addReminder(reminder);
+    await loadReminders(); 
+  }
+
+  Future<void> updateReminder(Reminder reminder) async {
+    await reminderRepository.updateReminder(reminder);
+    await loadReminders(); 
+  }
+
+  Future<void> deleteReminder(String id) async {
+    await reminderRepository.deleteReminder(id);
+    await loadReminders(); 
+  }
+
+  // --------------- Transaction Methods ---------------------
 
   Future<void> loadTransactions() async {
     emit(FinanceLoading());
@@ -58,7 +91,7 @@ class FinanceCubit extends Cubit<FinanceState> {
 
     final currentTransactions = state is FinanceLoaded
         ? (state as FinanceLoaded).transactions
-        : <Transaction>[]; // Use <Transaction>[] for empty list
+        : <Transaction>[];
 
     final updatedTransactions = List<Transaction>.from(currentTransactions)
       ..add(transaction);
@@ -87,6 +120,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         username: state is FinanceLoaded
             ? (state as FinanceLoaded).username
             : "Guest",
+        reminders: state is FinanceLoaded
+            ? (state as FinanceLoaded).reminders
+            : [],
       ),
     );
   }
@@ -124,6 +160,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         username: state is FinanceLoaded
             ? (state as FinanceLoaded).username
             : "Guest",
+        reminders: state is FinanceLoaded
+            ? (state as FinanceLoaded).reminders
+            : [ ]
       ),
     );
   }

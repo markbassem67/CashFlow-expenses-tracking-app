@@ -1,8 +1,12 @@
+import 'package:expenses_tracking_app/data/models/reminder_model.dart';
 import 'package:expenses_tracking_app/presentation/widgets/platform_alert_dialog.dart';
 import 'package:expenses_tracking_app/presentation/widgets/platform_datepicker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart'
+    hide showPlatformDatePicker;
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import '../../data/models/transaction_model.dart';
 import '../../logic/cubit/finance_cubit.dart';
@@ -22,6 +26,8 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
   final TextEditingController dateController = TextEditingController();
   String? selectedType;
   final uuid = const Uuid();
+  String rawValue = '';
+  bool switchValue = false;
 
   @override
   void dispose() {
@@ -56,7 +62,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
         ),
         child: Container(
           width: width * 0.9,
-          height: height * 0.68,
+          height: height * 0.72,
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
@@ -73,7 +79,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
           child: Padding(
             padding: EdgeInsets.fromLTRB(
               width * 0.055,
-              height * 0.005,
+              height * 0.0,
               width * 0.055,
               0,
             ),
@@ -82,7 +88,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
               children: [
                 SizedBox(height: height * 0.04),
                 Text(
-                  'Name',
+                  'Transaction',
                   style: TextStyle(
                     fontSize: width * 0.045,
                     fontWeight: FontWeight.w300,
@@ -102,7 +108,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                     ),
                   ),
                 ),
-                SizedBox(height: height * 0.025),
+                SizedBox(height: height * 0.024),
                 Text(
                   'Amount',
                   style: TextStyle(
@@ -125,7 +131,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                     ),
                   ),
                 ),
-                SizedBox(height: height * 0.025),
+                SizedBox(height: height * 0.024),
                 Text(
                   'Type',
                   style: TextStyle(
@@ -167,7 +173,7 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                     ),
                   ),
                 ),
-                SizedBox(height: height * 0.025),
+                SizedBox(height: height * 0.024),
                 Text(
                   'Date',
                   style: TextStyle(
@@ -199,13 +205,40 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                         dateController.text = "${pickedDate.toLocal()}".split(
                           ' ',
                         )[0];
+                        rawValue = dateController.text;
+                        dateController.text = DateFormat(
+                          'EEE, dd MMM yyyy',
+                        ).format(pickedDate);
                       }
                     },
                     readOnly: true,
                   ),
                 ),
+                SizedBox(height: height * 0.017),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Set as Reminder ?',
+                      style: TextStyle(
+                        fontSize: width * 0.043,
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF666666),
+                      ),
+                    ),
+                    PlatformSwitch(
+                      value: switchValue,
+                      activeColor: const Color(0xFF1E605B),
+                      onChanged: (value) {
+                        setState(() {
+                          switchValue = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
                 Padding(
-                  padding: EdgeInsets.only(top: height * 0.04),
+                  padding: EdgeInsets.only(top: height * 0.025),
                   child: SizedBox(
                     height: height * 0.065,
                     child: CustomButtons.buildButton(context, () {
@@ -238,19 +271,32 @@ class _AddExpensesCardState extends State<AddExpensesCard> {
                         return;
                       }
 
-                      final tx = Transaction(
-                        id: uuid.v4(),
-                        name: nameController.text,
-                        amount: double.tryParse(amountController.text) ?? 0,
-                        type: selectedType == "Income"
-                            ? TransactionType.income
-                            : TransactionType.expense,
-                        date: dateController.text.isNotEmpty
-                            ? DateTime.parse(dateController.text)
-                            : DateTime.now(),
-                      );
+                      if (switchValue) {
+                        final rm = Reminder(
+                          id: uuid.v4(),
+                          title: nameController.text,
+                          amount: double.tryParse(amountController.text) ?? 0,
+                          dateTime: dateController.text.isNotEmpty
+                              ? DateTime.parse(rawValue)
+                              : DateTime.now(),
+                        );
+                        context.read<FinanceCubit>().addReminder(rm);
+                      } else {
+                        final tx = Transaction(
+                          id: uuid.v4(),
+                          name: nameController.text,
+                          amount: double.tryParse(amountController.text) ?? 0,
+                          type: selectedType == "Income"
+                              ? TransactionType.income
+                              : TransactionType.expense,
+                          date: dateController.text.isNotEmpty
+                              ? DateTime.parse(rawValue)
+                              : DateTime.now(),
+                        );
 
-                      context.read<FinanceCubit>().addTransaction(tx);
+                        context.read<FinanceCubit>().addTransaction(tx);
+                      }
+
                       AppDialogs.showPlatformAlertDialog(
                         context,
                         title: 'Success',
