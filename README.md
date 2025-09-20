@@ -1,16 +1,51 @@
-# expenses_tracking_app
+# CashFlow – Expense Tracking App (Not finished)
+An easy-to-use Flutter app that helps users track their expenses, set goals, and manage their financial habits. The app is designed with persistence in mind so that data is retained even after closing or restarting the app.
 
-A new Flutter project.
 
-## Getting Started
+## ✅ Core Architecture & Setup
 
-This project is a starting point for a Flutter application.
+- Chose Flutter with Bloc (Cubit) for state management.
 
-A few resources to get you started if this is your first Flutter project:
+- Organised project into clean layers:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+   - data/ → repositories, models, persistence
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   - logic/ → cubits & states
+
+   - presentation/ → screens & widgets
+ 
+
+## 🚀 Features
+
+- Add, edit, and delete transactions.
+
+- Categorise transactions as Income or Expense.
+
+- Display total balance, total income, and total expenses.
+
+- Store user profile name.
+
+- User profile name is saved locally using Shared Preferences and restored on app restart.
+
+- Lightweight and fast thanks to local storage (no external server required).
+
+## 🛠️ Tech Stack
+
+- Flutter (Dart) – Cross-platform UI toolkit.
+
+- Shared Preferences – For storing user profile data persistently.
+
+- Hive – Used for storing transaction data locally.
+
+
+## Screenshots
+| HomeScreen | Add Transaction |
+|--------------|--------------|
+| <img src="https://github.com/user-attachments/assets/0f07ff17-e5df-44b3-9070-926dde85ed36" width="300"/> | <img src="https://github.com/user-attachments/assets/c569b75a-ddf9-4b66-b2a8-0521989860b0" width="300"/> |
+
+
+
+## 🎨 Design Credits
+
+UI/UX design inspiration by https://www.figma.com/design/3SBOL8VCstkhTz7hA3JOkm/Income---Expense-Tracker-App--Community-?node-id=0-1&t=5Km9VzMN5E6JbTdg-1
+
