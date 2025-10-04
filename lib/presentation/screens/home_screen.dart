@@ -1,5 +1,4 @@
 import 'package:expenses_tracking_app/core/utils/helpers.dart';
-import 'package:expenses_tracking_app/presentation/screens/transaction_details_screen.dart';
 import 'package:expenses_tracking_app/presentation/widgets/arc_container.dart';
 import 'package:expenses_tracking_app/presentation/widgets/balance_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top header with Arc + Balance Card
                 Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -91,30 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         color: Colors.white,
                         iconSize: width * 0.07,
                       ),
-
-                      /* ClipRRect(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color(
-                                0xFFFFFFFF,
-                              ).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onPressed: () {},
-                              icon: const Icon(CupertinoIcons.bell),
-
-                              color: Colors.white,
-                              iconSize: width * 0.07, // responsive icon size
-                            ),
-                          ),
-                        ),
-                      ), */
                     ),
                     BalanceCardWidget.buildBalanceCard(
                       state.totalIncome,
@@ -163,12 +137,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             return ListTile(
                               splashColor: Colors.transparent,
                               onTap: () {
-                                Navigator.push(
+                                // TODO: add functionality later
+                                /*  Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => const TransactionDetails(),
                                   ),
-                                );
+                                ); */
                               },
                               title: Text(
                                 tx.name.capitalize(),

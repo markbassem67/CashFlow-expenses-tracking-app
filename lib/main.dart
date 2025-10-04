@@ -17,7 +17,6 @@ void main() async {
   Hive.registerAdapter(TransactionAdapter());
   Hive.registerAdapter(ReminderAdapter());
 
-
   final transactionRepository = TransactionRepository();
   final UserRepository userRepo = UserRepository();
 

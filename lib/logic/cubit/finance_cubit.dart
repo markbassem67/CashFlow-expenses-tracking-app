@@ -61,17 +61,17 @@ class FinanceCubit extends Cubit<FinanceState> {
 
   Future<void> addReminder(Reminder reminder) async {
     await reminderRepository.addReminder(reminder);
-    await loadReminders(); 
+    await loadReminders();
   }
 
   Future<void> updateReminder(Reminder reminder) async {
     await reminderRepository.updateReminder(reminder);
-    await loadReminders(); 
+    await loadReminders();
   }
 
   Future<void> deleteReminder(String id) async {
     await reminderRepository.deleteReminder(id);
-    await loadReminders(); 
+    await loadReminders();
   }
 
   // --------------- Transaction Methods ---------------------
