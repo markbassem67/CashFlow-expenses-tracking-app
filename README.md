@@ -39,9 +39,9 @@ An easy-to-use Flutter app that helps users track their expenses, set goals, and
 
 
 ## Screenshots
-| Home Screen | Add Transaction Screen |
-|--------------|--------------|
-| <img src="https://github.com/user-attachments/assets/0f07ff17-e5df-44b3-9070-926dde85ed36" width="300"/> | <img src="https://github.com/user-attachments/assets/c569b75a-ddf9-4b66-b2a8-0521989860b0" width="300"/> |
+| Home Screen | Add Transaction Screen | Top Spendings Screen |
+|--------------|------------------------|-------------------|
+| <img src="https://github.com/user-attachments/assets/0f07ff17-e5df-44b3-9070-926dde85ed36" width="300"/> | <img src="https://github.com/user-attachments/assets/c569b75a-ddf9-4b66-b2a8-0521989860b0" width="300"/> | <img src="https://github.com/user-attachments/assets/045d0b91-8a2e-4a8f-a023-02c1c1031379" width="300"/> |
 
 
 
