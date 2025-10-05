@@ -154,7 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               subtitle: Text(
-                                DateFormat('EEE d, yyyy').format(tx.date),
+                                DateFormat('EEE, MMM d, yyyy').format(tx.date),
+
                                 style: TextStyle(
                                   color: const Color(0xFF666666),
                                   fontSize: width * 0.037,

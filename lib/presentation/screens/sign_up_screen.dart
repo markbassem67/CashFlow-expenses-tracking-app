@@ -106,7 +106,7 @@ class SignUp extends StatelessWidget {
                         showCurrencyPicker(
                           context: context,
                           onSelect: (Currency currency) {
-                            selectedCurrency = currency.code;
+                            selectedCurrency = currency.symbol;
                             // force rebuild
                             (context as Element).markNeedsBuild();
                           },
