@@ -1,24 +1,40 @@
 import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/presentation/widgets/arc_container.dart';
 import 'package:expenses_tracking_app/presentation/widgets/balance_card.dart';
+import 'package:expenses_tracking_app/presentation/widgets/build_homescreen_lists.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_state.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:intl/intl.dart';
 
-import '../../data/models/transaction_model.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+  ValueNotifier<bool> isReminderOn = ValueNotifier(false);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //bool reminderOn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.isReminderOn.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    widget.isReminderOn.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = context.screenWidth;
@@ -83,8 +99,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         //TODO: Add notification functionality
-                        onPressed: () {},
-                        icon: const Icon(CupertinoIcons.bell),
+                        onPressed: () {
+                          widget.isReminderOn.value =
+                              !widget.isReminderOn.value;
+                        },
+                        icon: !widget.isReminderOn.value
+                            ? const Icon(CupertinoIcons.bell)
+                            : const Icon(CupertinoIcons.list_dash),
 
                         color: Colors.white,
                         iconSize: width * 0.07,
@@ -107,77 +128,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     height * 0.01,
                   ),
                   child: Text(
-                    'Transactions History',
+                    !widget.isReminderOn.value
+                        ? 'Transactions History'
+                        : 'Reminders List',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: width * 0.05,
                     ),
                   ),
                 ),
-
-                // Transaction list
                 Expanded(
-                  child: state.transactions.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No transactions yet',
-                            style: TextStyle(
-                              color: const Color(0xFF666666),
-                              fontSize: width * 0.04,
-                            ),
-                          ),
-                        )
-                      : ListView.builder(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.055,
-                          ),
-                          itemCount: state.transactions.length,
-                          itemBuilder: (context, index) {
-                            final tx = state.transactions[index];
-                            return ListTile(
-                              splashColor: Colors.transparent,
-                              onTap: () {
-                                // TODO: add functionality later
-                                /*  Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const TransactionDetails(),
-                                  ),
-                                ); */
-                              },
-                              title: Text(
-                                tx.name.capitalize(),
-                                style: TextStyle(
-                                  fontSize: width * 0.045,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: -0.32,
-                                ),
-                              ),
-                              subtitle: Text(
-                                DateFormat('EEE, MMM d, yyyy').format(tx.date),
-
-                                style: TextStyle(
-                                  color: const Color(0xFF666666),
-                                  fontSize: width * 0.037,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: -0.26,
-                                ),
-                              ),
-                              trailing: Text(
-                                tx.type == TransactionType.income
-                                    ? '+\$${tx.amount.toStringAsFixed(2)}'
-                                    : '-\$${tx.amount.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                  color: tx.type == TransactionType.income
-                                      ? const Color(0xFF24A869)
-                                      : const Color(0xFFF95B51),
-                                  fontSize: width * 0.048,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                  child: TransactionListView(
+                    isReminderOn: widget.isReminderOn.value,
+                    transactions: state.transactions,
+                    reminders: state.reminders,
+                    width: width,
+                  ),
                 ),
               ],
             ),

@@ -18,7 +18,7 @@ class _MainNavBarState extends State<MainNavBar> {
   );
 
   List<Widget> _buildScreens() => [
-    const HomeScreen(),
+    HomeScreen(),
     const AddExpensesScreen(),
     const StatsScreen(),
   ];
