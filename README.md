@@ -39,6 +39,18 @@ An easy-to-use Flutter app that helps users track their expenses, set goals, and
 
 
 ## Screenshots
+
+| Splash Screen | OnBoarding Screen | Sign Up Screen |
+|--------------|------------------------|-------------------|
+| <img width="300"  src="https://github.com/user-attachments/assets/275a29fc-e2b9-4191-9878-c8e2378cdecc" /> | <img width="300"  src="https://github.com/user-attachments/assets/299207a9-f4b7-4859-b8bb-02c6ab7d0514" /> | <img width="300"  src="https://github.com/user-attachments/assets/75531f3b-c97a-4dee-99ed-8b682237d33e" /> |
+
+| Empty Transactions Screen | Empty Reminders Screen | 
+|--------------|------------------------|
+| <img width="300" src="https://github.com/user-attachments/assets/0d48d09c-46ba-4f82-99aa-cd28f9b6b4de" /> | <img width="300"  src="https://github.com/user-attachments/assets/42c80a87-c7cf-4f39-9f22-3f1baca14690" /> |
+
+
+
+
 | Home Screen | Add Transaction Screen | Top Spendings Screen |
 |--------------|------------------------|-------------------|
 | <img src="https://github.com/user-attachments/assets/0f07ff17-e5df-44b3-9070-926dde85ed36" width="300"/> | <img src="https://github.com/user-attachments/assets/c569b75a-ddf9-4b66-b2a8-0521989860b0" width="300"/> | <img src="https://github.com/user-attachments/assets/045d0b91-8a2e-4a8f-a023-02c1c1031379" width="300"/> |
