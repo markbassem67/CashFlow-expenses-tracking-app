@@ -9,7 +9,6 @@ import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_state.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
   ValueNotifier<bool> isReminderOn = ValueNotifier(false);
@@ -137,13 +136,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: TransactionListView(
-                    isReminderOn: widget.isReminderOn.value,
-                    transactions: state.transactions,
-                    reminders: state.reminders,
-                    width: width,
-                  ),
+                TransactionListView(
+                  isReminderOn: widget.isReminderOn.value,
+                  transactions: state.transactions,
+                  reminders: state.reminders,
+                  width: width,
                 ),
               ],
             ),

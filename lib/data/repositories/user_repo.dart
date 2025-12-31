@@ -17,4 +17,19 @@ class UserRepository {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_usernameKey);
   }
+
+  Future<bool> getBiometricsEnabled() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    return prefs.getBool('biometrics_enabled') ?? false;
+  }
+
+  Future<void> setBiometricsEnabled(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('biometrics_enabled', value);
+  }
+
+  Future<bool> isLocalAuthEnabled() async {
+    return true;
+  }
 }

@@ -1,4 +1,6 @@
+import 'package:expenses_tracking_app/core/services/local_auth_service.dart';
 import 'package:expenses_tracking_app/data/models/reminder_model.dart';
+import 'package:expenses_tracking_app/data/repositories/local_auth_repo.dart';
 import 'package:expenses_tracking_app/data/repositories/user_repo.dart';
 import 'package:expenses_tracking_app/presentation/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,16 +21,23 @@ void main() async {
 
   final transactionRepository = TransactionRepository();
   final UserRepository userRepo = UserRepository();
+  final LocalAuthRepository localAuthRepo = LocalAuthRepository(
+    LocalAuthService(),
+    userRepo,
+  );
 
   await Hive.openBox<Transaction>('transactions');
   await Hive.openBox<Reminder>('reminders');
 
   runApp(
     BlocProvider(
-      create: (context) => FinanceCubit(transactionRepository, userRepo)
-        ..loadTransactions()
-        ..loadUsername()
-        ..loadReminders(),
+      create: (context) =>
+          FinanceCubit(transactionRepository, userRepo, localAuthRepo)
+            ..loadTransactions()
+            ..loadUsername()
+            ..loadReminders()
+            ..loadBiometricsSetting(),
+
       child: const MyApp(),
     ),
   );

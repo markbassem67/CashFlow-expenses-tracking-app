@@ -22,7 +22,7 @@ class TransactionListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = isReminderOn ? reminders : transactions;
     final emptyMessage = isReminderOn
-        ? 'No reminders upcoming'
+        ? 'No payments upcoming'
         : 'No transactions yet';
     final isTransactionList = !isReminderOn;
 

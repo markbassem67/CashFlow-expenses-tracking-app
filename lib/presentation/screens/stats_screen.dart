@@ -1,9 +1,13 @@
+import 'dart:io';
 import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/data/models/transaction_model.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_state.dart';
+import 'package:expenses_tracking_app/presentation/screens/biometrics_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:intl/intl.dart';
 
 class StatsScreen extends StatefulWidget {
@@ -33,7 +37,66 @@ class _StatsScreenState extends State<StatsScreen> {
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              surfaceTintColor: Colors.transparent,
               centerTitle: true,
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    _showBiometricsModal(context, height, width);
+                    /* showPlatformModalSheet(
+                      context: context,
+                      builder: (BuildContext) {
+                        return Container(
+                          height: height * 0.2,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(25),
+                            border: Border.all(
+                              color: const Color(0xFF1E605B),
+                              width: 3,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Use Biometrics',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        decoration: TextDecoration.none,
+                                        fontSize: width * 0.052,
+                                        color: const Color(0xFF222222),
+                                      ),
+                                    ),
+                                    SizedBox(width: width * 0.04),
+                                    PlatformSwitch(
+                                      value: switchValue,
+                                      activeColor: const Color(0xFF1E605B),
+                                      onChanged: (value) {
+                                        context
+                                            .read<FinanceCubit>()
+                                            .toggleBiometrics(value);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ); */
+                  }, //TODO: add settings functionality
+                  highlightColor: Colors.transparent,
+                  icon: Icon(
+                    Platform.isIOS ? CupertinoIcons.settings : Icons.settings,
+                    size: width * 0.067,
+                  ),
+                ),
+              ],
               title: Text(
                 'Statistics',
                 style: TextStyle(
@@ -130,4 +193,73 @@ class _StatsScreenState extends State<StatsScreen> {
       },
     );
   }
+}
+
+void _showBiometricsModal(BuildContext context, double height, double width) {
+  showPlatformModalSheet(
+    context: context,
+    builder: (modalContext) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(
+          0.25,
+          0,
+          0.25,
+          0,
+        ), //TODO: make it scale properly
+        child: Container(
+          height: height * 0.2,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+            border: Border.all(color: const Color(0xFF1E605B), width: 4),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Use Biometrics',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.none,
+                        fontSize: width * 0.052,
+                        color: const Color(0xFF222222),
+                      ),
+                    ),
+                    SizedBox(width: width * 0.04),
+                    BlocBuilder<FinanceCubit, FinanceState>(
+                      builder: (context, state) {
+                        return PlatformSwitch(
+                          value: state is FinanceLoaded
+                              ? state.biometricsOn
+                              : false,
+                          onChanged: (value) {
+                            if (value) {
+                              context.read<FinanceCubit>().unlockApp();
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const BiometricsScreen(),
+                                ),
+                              );
+                            }
+                            context.read<FinanceCubit>().toggleBiometrics(
+                              value,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

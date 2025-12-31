@@ -1,7 +1,11 @@
 import 'dart:ui';
-import 'package:expenses_tracking_app/core/utils/helpers.dart';
+import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
+import 'package:expenses_tracking_app/logic/cubit/finance_state.dart';
+import 'package:expenses_tracking_app/presentation/screens/biometrics_screen.dart';
 import 'package:expenses_tracking_app/presentation/widgets/nav_bar.dart';
+import 'package:expenses_tracking_app/presentation/widgets/splash_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onboarding_screen.dart';
 
@@ -22,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _checkFirstLaunch() async {
     final prefs = await SharedPreferences.getInstance();
     final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+    final isBiometricsOn = prefs.getBool('biometrics_enabled') ?? false;
 
     if (isFirstLaunch) {
       await prefs.setBool('firstLaunch', false);
@@ -32,8 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 700),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              isFirstLaunch ? const OnboardingScreen() : const MainNavBar(),
+          pageBuilder: (context, animation, secondaryAnimation) => isFirstLaunch
+              ? const OnboardingScreen()
+              : isBiometricsOn
+              ? const BiometricsScreen()
+              : const MainNavBar(),
+
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return Stack(
               children: [
@@ -55,7 +64,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return BlocListener<FinanceCubit, FinanceState>(
+      listener: (context, state) {
+        // ... your navigation logic
+      },
+      child: const SplashUi(),
+      /* return Stack(
       children: [
         Container(
           height: double.infinity,
@@ -83,6 +97,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       ],
+    ); */
     );
   }
 }

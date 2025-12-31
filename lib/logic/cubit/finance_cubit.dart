@@ -1,10 +1,9 @@
 import 'package:expenses_tracking_app/data/models/reminder_model.dart';
 import 'package:expenses_tracking_app/data/models/transaction_model.dart';
+import 'package:expenses_tracking_app/data/repositories/local_auth_repo.dart';
 import 'package:expenses_tracking_app/data/repositories/reminders_repo.dart';
 import 'package:expenses_tracking_app/data/repositories/user_repo.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../data/repositories/transaction_repo.dart';
 import 'finance_state.dart';
 
@@ -12,15 +11,90 @@ class FinanceCubit extends Cubit<FinanceState> {
   final ITransactionRepository transactionRepository;
   final UserRepository userRepo;
   final IReminderRepository reminderRepository = RemindersRepository();
+  final LocalAuthRepository localAuthRepo;
 
-  FinanceCubit(this.transactionRepository, this.userRepo)
+  FinanceCubit(this.transactionRepository, this.userRepo, this.localAuthRepo)
     : super(FinanceInitial()) {}
+
+  Future<void> unlockApp() async {
+    try {
+      final unlocked = await localAuthRepo.authenticateIfEnabled();
+
+      if (!unlocked) {
+        emit(FinanceLocked());
+        return;
+      }
+
+      await _loadAllData();
+    } catch (e) {
+      emit(FinanceError('Authentication failed: $e'));
+    }
+  }
+
+  Future<void> _loadAllData() async {
+    emit(FinanceLoading());
+
+    try {
+      final transactions = await transactionRepository.getAllTransactions();
+      final reminders = await reminderRepository.getAllReminders();
+      final username = await userRepo.getUsername() ?? 'Guest';
+      final biometricsEnabled = await userRepo.getBiometricsEnabled();
+
+      // Calculate stats
+      final totalIncome = transactions
+          .where((t) => t.type == TransactionType.income)
+          .fold(0.0, (sum, t) => sum + t.amount);
+
+      final totalExpenses = transactions
+          .where((t) => t.type == TransactionType.expense)
+          .fold(0.0, (sum, t) => sum + t.amount);
+
+      emit(
+        FinanceLoaded(
+          transactions: transactions,
+          reminders: reminders,
+          balance: totalIncome - totalExpenses,
+          totalIncome: totalIncome,
+          totalExpenses: totalExpenses,
+          username: username,
+          biometricsOn: biometricsEnabled,
+        ),
+      );
+    } catch (e) {
+      emit(FinanceError('Failed to load data: $e'));
+    }
+  }
+
+  // --------------- Biometrics Methods ---------------------
+
+  Future<void> toggleBiometrics(bool value) async {
+    if (state is! FinanceLoaded) return;
+    final currentState = state as FinanceLoaded;
+    await userRepo.setBiometricsEnabled(value);
+    emit(currentState.copyWith(biometricsOn: value));
+  }
+
+  Future<void> loadBiometricsSetting() async {
+    final isEnabled = await userRepo.getBiometricsEnabled();
+
+    if (isEnabled) {
+      emit(FinanceLocked());
+    } else if (state is FinanceLoaded) {
+      final currentState = state as FinanceLoaded;
+      emit(currentState.copyWith(biometricsOn: false));
+    }
+  }
+
+  // --------------- Username Methods ---------------------
 
   Future<void> loadUsername() async {
     final username = await userRepo.getUsername() ?? 'Guest';
     emit(
       FinanceLoaded(
         username: username,
+        biometricsOn: state is FinanceLoaded
+            ? (state as FinanceLoaded).biometricsOn
+            : false,
         balance: state is FinanceLoaded ? (state as FinanceLoaded).balance : 0,
         totalIncome: state is FinanceLoaded
             ? (state as FinanceLoaded).totalIncome
@@ -43,7 +117,12 @@ class FinanceCubit extends Cubit<FinanceState> {
 
     if (state is FinanceLoaded) {
       final current = state as FinanceLoaded;
-      emit(current.copyWith(username: username));
+      emit(
+        current.copyWith(
+          username: username,
+          biometricsOn: current.biometricsOn,
+        ),
+      );
     } else {
       emit(FinanceInitial(username: username));
     }
@@ -55,7 +134,12 @@ class FinanceCubit extends Cubit<FinanceState> {
     final reminders = await reminderRepository.getAllReminders();
     if (state is FinanceLoaded) {
       final current = state as FinanceLoaded;
-      emit(current.copyWith(reminders: reminders));
+      emit(
+        current.copyWith(
+          reminders: reminders,
+          biometricsOn: current.biometricsOn,
+        ),
+      );
     }
   }
 
@@ -113,6 +197,9 @@ class FinanceCubit extends Cubit<FinanceState> {
 
     emit(
       FinanceLoaded(
+        biometricsOn: state is FinanceLoaded
+            ? (state as FinanceLoaded).biometricsOn
+            : false,
         transactions: updatedTransactions,
         totalIncome: totalIncome,
         totalExpenses: totalExpenses,
@@ -153,6 +240,10 @@ class FinanceCubit extends Cubit<FinanceState> {
 
     emit(
       FinanceLoaded(
+        biometricsOn: state is FinanceLoaded
+            ? (state as FinanceLoaded).biometricsOn
+            : false,
+
         balance: balance,
         totalIncome: totalIncome,
         totalExpenses: totalExpenses,

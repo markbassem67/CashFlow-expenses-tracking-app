@@ -18,6 +18,7 @@ class FinanceLoaded extends FinanceState {
   final String username;
   //final List<Transaction> rankedtransactions;
   final List<Reminder> reminders;
+  final bool biometricsOn;
 
   FinanceLoaded({
     required this.balance,
@@ -27,6 +28,7 @@ class FinanceLoaded extends FinanceState {
     required this.username,
     // required this.rankedtransactions,
     required this.reminders,
+    required this.biometricsOn,
   });
 
   FinanceLoaded copyWith({
@@ -38,6 +40,7 @@ class FinanceLoaded extends FinanceState {
 
     //List<Transaction>? rankedtransactions,
     String? username,
+    required bool biometricsOn,
   }) {
     return FinanceLoaded(
       balance: balance ?? this.balance,
@@ -47,6 +50,7 @@ class FinanceLoaded extends FinanceState {
       username: username ?? this.username,
       // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
       reminders: reminders ?? this.reminders,
+      biometricsOn: biometricsOn,
     );
   }
 }
@@ -55,3 +59,5 @@ class FinanceError extends FinanceState {
   final String message;
   FinanceError(this.message);
 }
+
+class FinanceLocked extends FinanceState {}

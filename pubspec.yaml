@@ -44,6 +44,7 @@ dependencies:
   currency_picker: ^2.0.21
   shared_preferences: ^2.5.3
   flutter_local_notifications: ^19.4.2
+  local_auth: ^2.3.0
   
 
 dev_dependencies:
