@@ -16,6 +16,14 @@ class FinanceCubit extends Cubit<FinanceState> {
   FinanceCubit(this.transactionRepository, this.userRepo, this.localAuthRepo)
     : super(FinanceInitial()) {}
 
+  Future<bool> isFirstLaunch() async {
+    return await userRepo.isFirstLaunch();
+  }
+
+  Future<void> setFirstLaunchFalse() async {
+    await userRepo.setFirstLaunchFalse();
+  }
+
   Future<void> unlockApp() async {
     try {
       final unlocked = await localAuthRepo.authenticateIfEnabled();
@@ -96,7 +104,7 @@ class FinanceCubit extends Cubit<FinanceState> {
     );
   }
 
-  Future<void> loadBiometricsSetting() async {
+  Future<bool> loadBiometricsSetting() async {
     final isEnabled = await userRepo.getBiometricsEnabled();
 
     if (isEnabled) {
@@ -110,6 +118,7 @@ class FinanceCubit extends Cubit<FinanceState> {
         ),
       );
     }
+    return isEnabled;
   }
 
   // --------------- Username Methods ---------------------

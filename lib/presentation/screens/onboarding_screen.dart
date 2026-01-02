@@ -1,3 +1,4 @@
+import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/presentation/screens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,8 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = context.screenWidth;
+    final height = context.screenHeight;
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -16,33 +19,30 @@ class OnboardingScreen extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/money icon.png',
-              width: 340,
-              height: 340,
+              width: width * 0.65,
+              height: height * 0.3,
             ),
 
-            const Text(
+            Text(
               'Clear finances\nConfident future',
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(0xFF438883),
-                fontSize: 36,
+                color: const Color(0xFF438883),
+                fontSize: width * 0.08,
 
                 fontWeight: FontWeight.w700,
-                height: 1.06,
-                letterSpacing: -0.72,
+                height: height * 0.00115,
+                letterSpacing: -width * 0.0004,
               ),
             ),
-            const SizedBox(height: 25),
-
+            SizedBox(height: height * 0.035),
             SizedBox(
-              width: 358,
-              height: 67,
+              width: width * 0.8,
+              height: height * 0.08,
               child: CustomButtons.buildButton(context, () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => SignUp(),
-                  ), //MainNavBar SignUp
+                  MaterialPageRoute(builder: (context) => SignUp()),
                 );
               }, 'Get Started'),
             ),

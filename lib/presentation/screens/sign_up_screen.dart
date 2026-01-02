@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                             Text(
                               'Use Biometrics',
                               style: TextStyle(
-                                fontSize: width * 0.038,
+                                fontSize: width * 0.042,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.black87,
                               ),
@@ -220,6 +220,9 @@ class _SignUpState extends State<SignUp> {
                                   .trim()
                                   .capitalizeName();
                               context.read<FinanceCubit>().setUsername(name);
+                              context
+                                  .read<FinanceCubit>()
+                                  .setFirstLaunchFalse();
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(

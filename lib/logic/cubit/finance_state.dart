@@ -16,7 +16,6 @@ class FinanceLoaded extends FinanceState {
   final double totalExpenses;
   final List<Transaction> transactions;
   final String username;
-  //final List<Transaction> rankedtransactions;
   final List<Reminder> reminders;
   final bool biometricsOn;
   final String currency;
@@ -27,7 +26,6 @@ class FinanceLoaded extends FinanceState {
     required this.totalExpenses,
     required this.transactions,
     required this.username,
-    // required this.rankedtransactions,
     required this.reminders,
     required this.biometricsOn,
     required this.currency,
@@ -40,7 +38,6 @@ class FinanceLoaded extends FinanceState {
     List<Transaction>? transactions,
     List<Reminder>? reminders,
 
-    //List<Transaction>? rankedtransactions,
     String? username,
     required bool biometricsOn, required String currency,
   }) {
@@ -50,7 +47,6 @@ class FinanceLoaded extends FinanceState {
       totalExpenses: totalExpenses ?? this.totalExpenses,
       transactions: transactions ?? this.transactions,
       username: username ?? this.username,
-      // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
       reminders: reminders ?? this.reminders,
       biometricsOn: biometricsOn,
       currency: currency,

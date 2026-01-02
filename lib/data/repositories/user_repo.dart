@@ -2,6 +2,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   static const _usernameKey = 'username';
+  Future<bool> isFirstLaunch() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isFirstLaunch = prefs.getBool('firstLaunch') ?? true;
+return isFirstLaunch;
+  }
+Future<void> setFirstLaunchFalse() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('firstLaunch', false);
+  }
+
 
   Future<void> saveUsername(String username) async {
     final prefs = await SharedPreferences.getInstance();
@@ -33,7 +43,7 @@ class UserRepository {
     return true;
   }
 
-Future<void> setUserCurrency(String currency) async {
+  Future<void> setUserCurrency(String currency) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('user_currency', currency);
   }
