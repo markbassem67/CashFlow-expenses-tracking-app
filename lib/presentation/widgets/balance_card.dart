@@ -7,6 +7,7 @@ class BalanceCardWidget {
     double income,
     double expenses,
     double totalBalance,
+    String currency,
   ) {
     return Builder(
       builder: (context) {
@@ -14,11 +15,11 @@ class BalanceCardWidget {
         final height = context.screenHeight;
 
         return Positioned(
-          top: height * 0.17, // instead of 155
-          left: width * 0.055, // instead of 30
+          top: height * 0.17,
+          left: width * 0.055,
           child: Container(
-            width: width * 0.9, // instead of 374
-            height: height * 0.23, // instead of 202
+            width: width * 0.9,
+            height: height * 0.23,
             decoration: BoxDecoration(
               color: const Color(0xFF2E7E78),
               borderRadius: BorderRadius.circular(width * 0.05),
@@ -70,7 +71,7 @@ class BalanceCardWidget {
                       ),
                       //SizedBox(height: height * 0.01),
                       Text(
-                        '\$ $totalBalance',
+                        '$currency ${totalBalance}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: width * 0.075,
@@ -135,7 +136,7 @@ class BalanceCardWidget {
                   left: width * 0.05,
                   top: height * 0.185,
                   child: Text(
-                    '\$ $income',
+                    '$currency $income',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.05,
@@ -150,7 +151,7 @@ class BalanceCardWidget {
                   right: width * 0.05,
                   top: height * 0.185,
                   child: Text(
-                    '\$ $expenses',
+                    '$currency $expenses',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: width * 0.05,

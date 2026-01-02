@@ -9,6 +9,7 @@ class TransactionListView extends StatelessWidget {
   final List<Transaction> transactions;
   final List<Reminder> reminders;
   final double width;
+  final String currency;
 
   const TransactionListView({
     super.key,
@@ -16,6 +17,7 @@ class TransactionListView extends StatelessWidget {
     required this.transactions,
     required this.reminders,
     required this.width,
+    required this.currency,
   });
 
   @override
@@ -46,6 +48,7 @@ class TransactionListView extends StatelessWidget {
                   item: item,
                   width: width,
                   isTransaction: isTransactionList,
+                  currency: currency,
                 );
               },
             ),
@@ -57,11 +60,13 @@ class _TransactionListItem extends StatelessWidget {
   final dynamic item;
   final double width;
   final bool isTransaction;
+  final String currency;
 
   const _TransactionListItem({
     required this.item,
     required this.width,
     required this.isTransaction,
+    required this.currency,
   });
 
   @override
@@ -125,11 +130,11 @@ class _TransactionListItem extends StatelessWidget {
     if (isTransaction) {
       final tx = item as Transaction;
       return tx.type == TransactionType.income
-          ? '+\$${tx.amount.toStringAsFixed(2)}'
-          : '-\$${tx.amount.toStringAsFixed(2)}';
+          ? '+$currency${tx.amount.toStringAsFixed(2)}'
+          : '-$currency${tx.amount.toStringAsFixed(2)}';
     } else {
       final reminder = item as Reminder;
-      return '-\$${reminder.amount.toStringAsFixed(2)}';
+      return '-$currency${reminder.amount.toStringAsFixed(2)}';
     }
   }
 

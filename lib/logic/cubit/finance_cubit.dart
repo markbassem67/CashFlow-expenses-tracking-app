@@ -25,13 +25,13 @@ class FinanceCubit extends Cubit<FinanceState> {
         return;
       }
 
-      await _loadAllData();
+      await loadAllData();
     } catch (e) {
       emit(FinanceError('Authentication failed: $e'));
     }
   }
 
-  Future<void> _loadAllData() async {
+  Future<void> loadAllData() async {
     emit(FinanceLoading());
 
     try {
@@ -39,6 +39,7 @@ class FinanceCubit extends Cubit<FinanceState> {
       final reminders = await reminderRepository.getAllReminders();
       final username = await userRepo.getUsername() ?? 'Guest';
       final biometricsEnabled = await userRepo.getBiometricsEnabled();
+      final currency = await userRepo.getUserCurrency();
 
       // Calculate stats
       final totalIncome = transactions
@@ -58,10 +59,25 @@ class FinanceCubit extends Cubit<FinanceState> {
           totalExpenses: totalExpenses,
           username: username,
           biometricsOn: biometricsEnabled,
+          currency: currency,
         ),
       );
     } catch (e) {
       emit(FinanceError('Failed to load data: $e'));
+    }
+  }
+
+  Future<void> setUserCurrency(String currency) async {
+    await userRepo.setUserCurrency(currency);
+
+    if (state is FinanceLoaded) {
+      final current = state as FinanceLoaded;
+      emit(
+        current.copyWith(
+          username: current.username,
+          biometricsOn: current.biometricsOn,
+        ),
+      );
     }
   }
 
@@ -108,6 +124,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         reminders: state is FinanceLoaded
             ? (state as FinanceLoaded).reminders
             : [],
+        currency: state is FinanceLoaded
+            ? (state as FinanceLoaded).currency
+            : 'USD',
       ),
     );
   }
@@ -210,6 +229,9 @@ class FinanceCubit extends Cubit<FinanceState> {
         reminders: state is FinanceLoaded
             ? (state as FinanceLoaded).reminders
             : [],
+        currency: state is FinanceLoaded
+            ? (state as FinanceLoaded).currency
+            : 'USD',
       ),
     );
   }
@@ -253,7 +275,10 @@ class FinanceCubit extends Cubit<FinanceState> {
             : "Guest",
         reminders: state is FinanceLoaded
             ? (state as FinanceLoaded).reminders
-            : [ ]
+            : [],
+        currency: state is FinanceLoaded
+            ? (state as FinanceLoaded).currency
+            : 'USD',
       ),
     );
   }

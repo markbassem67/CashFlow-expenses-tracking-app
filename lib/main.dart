@@ -33,10 +33,7 @@ void main() async {
     BlocProvider(
       create: (context) =>
           FinanceCubit(transactionRepository, userRepo, localAuthRepo)
-            ..loadTransactions()
-            ..loadUsername()
-            ..loadReminders()
-            ..loadBiometricsSetting(),
+            ..loadAllData(),
 
       child: const MyApp(),
     ),

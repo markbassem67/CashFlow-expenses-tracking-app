@@ -121,6 +121,9 @@ class _SignUpState extends State<SignUp> {
                               context: context,
                               onSelect: (Currency currency) {
                                 selectedCurrency = currency.symbol;
+                                context.read<FinanceCubit>().setUserCurrency(
+                                  currency.symbol,
+                                );
                                 (context as Element).markNeedsBuild();
                               },
                             );

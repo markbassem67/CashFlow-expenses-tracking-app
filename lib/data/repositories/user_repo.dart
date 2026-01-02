@@ -32,4 +32,14 @@ class UserRepository {
   Future<bool> isLocalAuthEnabled() async {
     return true;
   }
+
+Future<void> setUserCurrency(String currency) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_currency', currency);
+  }
+
+  Future<String> getUserCurrency() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('user_currency') ?? 'USD';
+  }
 }

@@ -19,6 +19,7 @@ class FinanceLoaded extends FinanceState {
   //final List<Transaction> rankedtransactions;
   final List<Reminder> reminders;
   final bool biometricsOn;
+  final String currency;
 
   FinanceLoaded({
     required this.balance,
@@ -29,6 +30,7 @@ class FinanceLoaded extends FinanceState {
     // required this.rankedtransactions,
     required this.reminders,
     required this.biometricsOn,
+    required this.currency,
   });
 
   FinanceLoaded copyWith({
@@ -51,6 +53,7 @@ class FinanceLoaded extends FinanceState {
       // rankedtransactions: rankedtransactions ?? this.rankedtransactions,
       reminders: reminders ?? this.reminders,
       biometricsOn: biometricsOn,
+      currency: currency,
     );
   }
 }
