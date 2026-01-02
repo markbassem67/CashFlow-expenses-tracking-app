@@ -1,10 +1,9 @@
 import 'dart:io';
-import 'package:currency_picker/currency_picker.dart';
 import 'package:expenses_tracking_app/core/utils/helpers.dart';
 import 'package:expenses_tracking_app/data/models/transaction_model.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_cubit.dart';
 import 'package:expenses_tracking_app/logic/cubit/finance_state.dart';
-import 'package:expenses_tracking_app/presentation/screens/biometrics_screen.dart';
+import 'package:expenses_tracking_app/presentation/widgets/settings_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +42,15 @@ class _StatsScreenState extends State<StatsScreen> {
               actions: [
                 IconButton(
                   onPressed: () {
-                    _showBiometricsModal(context, height, width);
+                    showPlatformModalSheet(
+                      context: context,
+                      builder: (_) => SettingsModal(
+                        height: height,
+                        width: width,
+                        selectedCurrency: state.currency,
+                        parentContext: context,
+                      ),
+                    );
                   }, //TODO: add settings functionality
                   highlightColor: Colors.transparent,
                   icon: Icon(
@@ -148,133 +155,4 @@ class _StatsScreenState extends State<StatsScreen> {
       },
     );
   }
-}
-
-void _showBiometricsModal(BuildContext context, double height, double width) {
-  String? selectedCurrency;
-  showPlatformModalSheet(
-    context: context,
-    builder: (modalContext) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(
-          0.21,
-          0,
-          0.21,
-          0,
-        ), //TODO: make it scale properly
-        child: Container(
-          height: height * 0.2,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(color: const Color(0xFF1E605B), width: 4),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      'Use Biometrics',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.none,
-                        fontSize: width * 0.052,
-                        color: const Color(0xFF222222),
-                      ),
-                    ),
-                    SizedBox(width: width * 0.125),
-                    BlocBuilder<FinanceCubit, FinanceState>(
-                      builder: (context, state) {
-                        return PlatformSwitch(
-                          value: state is FinanceLoaded
-                              ? state.biometricsOn
-                              : false,
-                          onChanged: (value) {
-                            if (value) {
-                              context.read<FinanceCubit>().unlockApp();
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BiometricsScreen(),
-                                ),
-                              );
-                            }
-                            context.read<FinanceCubit>().toggleBiometrics(
-                              value,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                SizedBox(height: height * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Change Currency',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        decoration: TextDecoration.none,
-                        fontSize: width * 0.052,
-                        color: const Color(0xFF222222),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showCurrencyPicker(
-                          context: context,
-                          onSelect: (Currency currency) {
-                            selectedCurrency = currency.symbol;
-                            context.read<FinanceCubit>().setUserCurrency(
-                              currency.symbol,
-                            );
-                            (context as Element).markNeedsBuild();
-                          },
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 14,
-                          horizontal: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade300),
-                          borderRadius: BorderRadius.circular(12),
-                          color: Colors.grey.shade50,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              selectedCurrency ?? "Select currency",
-                              style: TextStyle(
-                                fontSize: width * 0.036,
-                                decoration: TextDecoration.none,
-
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF2A7C76),
-                              ),
-                            ),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.black54,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }

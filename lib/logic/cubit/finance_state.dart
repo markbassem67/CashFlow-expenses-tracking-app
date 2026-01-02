@@ -42,7 +42,7 @@ class FinanceLoaded extends FinanceState {
 
     //List<Transaction>? rankedtransactions,
     String? username,
-    required bool biometricsOn,
+    required bool biometricsOn, required String currency,
   }) {
     return FinanceLoaded(
       balance: balance ?? this.balance,

@@ -119,6 +119,10 @@ class _SignUpState extends State<SignUp> {
                           onTap: () {
                             showCurrencyPicker(
                               context: context,
+                              theme: CurrencyPickerThemeData(
+                                backgroundColor: Colors.white,
+                                bottomSheetHeight: height * 0.5,
+                              ),
                               onSelect: (Currency currency) {
                                 selectedCurrency = currency.symbol;
                                 context.read<FinanceCubit>().setUserCurrency(

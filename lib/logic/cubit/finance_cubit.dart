@@ -76,6 +76,7 @@ class FinanceCubit extends Cubit<FinanceState> {
         current.copyWith(
           username: current.username,
           biometricsOn: current.biometricsOn,
+          currency: currency,
         ),
       );
     }
@@ -87,7 +88,12 @@ class FinanceCubit extends Cubit<FinanceState> {
     if (state is! FinanceLoaded) return;
     final currentState = state as FinanceLoaded;
     await userRepo.setBiometricsEnabled(value);
-    emit(currentState.copyWith(biometricsOn: value));
+    emit(
+      currentState.copyWith(
+        biometricsOn: value,
+        currency: currentState.currency,
+      ),
+    );
   }
 
   Future<void> loadBiometricsSetting() async {
@@ -97,7 +103,12 @@ class FinanceCubit extends Cubit<FinanceState> {
       emit(FinanceLocked());
     } else if (state is FinanceLoaded) {
       final currentState = state as FinanceLoaded;
-      emit(currentState.copyWith(biometricsOn: false));
+      emit(
+        currentState.copyWith(
+          biometricsOn: false,
+          currency: currentState.currency,
+        ),
+      );
     }
   }
 
@@ -140,6 +151,7 @@ class FinanceCubit extends Cubit<FinanceState> {
         current.copyWith(
           username: username,
           biometricsOn: current.biometricsOn,
+          currency: current.currency,
         ),
       );
     } else {
@@ -157,6 +169,7 @@ class FinanceCubit extends Cubit<FinanceState> {
         current.copyWith(
           reminders: reminders,
           biometricsOn: current.biometricsOn,
+          currency: current.currency,
         ),
       );
     }
