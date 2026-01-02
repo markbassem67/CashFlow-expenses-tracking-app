@@ -6,7 +6,7 @@ An easy-to-use Flutter app that helps users track their expenses, set goals, and
 
 - Chose Flutter with Bloc (Cubit) for state management.
 
-- Organised project into clean layers:
+- Organised project using Clean Architecture into layers:
 
    - data/ → repositories, models, persistence
 
@@ -28,6 +28,8 @@ An easy-to-use Flutter app that helps users track their expenses, set goals, and
 - User profile name is saved locally using Shared Preferences and restored on app restart.
 
 - Lightweight and fast thanks to local storage (no external server required).
+  
+- Use Bioemtrics to unlock the app, this adds aditional security layer.
 
 ## 🛠️ Tech Stack
 
@@ -36,6 +38,8 @@ An easy-to-use Flutter app that helps users track their expenses, set goals, and
 - Shared Preferences – For storing user profile data persistently.
 
 - Hive – Used for storing transaction data locally.
+  
+- Local auth - used to enable on device biometric authentication
 
 
 ## Screenshots
